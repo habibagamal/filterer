@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIScrollViewDelegate{
 
     //declarations
     var filteredImage: UIImage?
@@ -25,6 +25,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet var tapGesture: UITapGestureRecognizer!
     
     @IBOutlet var HSlider: UISlider!
+    @IBOutlet var scrollView: UIScrollView!
+    
+    @IBOutlet var zoomTapGestureRecognizer: UITapGestureRecognizer!
     
     @IBOutlet var slider: UIView!
     
@@ -584,7 +587,19 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         tapGesture.numberOfTouchesRequired = 1
         view.addGestureRecognizer(tapGesture)
         view.isUserInteractionEnabled = true
-        waiting.alpha = 0.0
         edit.isEnabled = false
+        
+//        zoomTapGestureRecognizer.numberOfTapsRequired = 2
     }
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return imageView
+    }
+    
+    @IBAction func onZoom(_ sender: Any) {
+        UIView.animate(withDuration: 0.4) {
+            self.scrollView.zoomScale = 1.5 * self.scrollView.zoomScale
+        }
+    }
+    
 }
